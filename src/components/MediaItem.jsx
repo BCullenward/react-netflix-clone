@@ -2,9 +2,28 @@ import React, { useState } from "react";
 import { createImageUrl } from "../services/movieServices";
 import { truncate, getYear } from "../services/common";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { arrayUnion, doc, updateDoc } from "firebase/firestore";
+import { db } from "../services/firebase";
+import { UserAuth } from "../context/AuthContext";
 
 const MediaItem = ({ movie }) => {
   const { title, backdrop_path, release_date, poster_path } = movie;
+  const { user } = UserAuth();
+
+  const markFavShow = async () => {
+    const userEmail = user?.email;
+
+    if (userEmail) {
+      const userDoc = doc(db, "users", userEmail);
+      setLike(!like);
+      await updateDoc(userDoc, {
+        favShows: arrayUnion({ ...movie }),
+      });
+    } else {
+      alert("Login to save a movie");
+    }
+  };
+
   const [like, setLike] = useState(false);
 
   return (
@@ -20,7 +39,7 @@ const MediaItem = ({ movie }) => {
           <br />
           {"(" + getYear(release_date) + ")"}
         </p>
-        <p>
+        <p onClick={markFavShow} className="cursor-pointer">
           {like ? (
             <FaHeart
               size={20}
