@@ -8,7 +8,7 @@ import { arrayRemove, doc, onSnapshot, updateDoc } from "firebase/firestore";
 import imglogin from "../assets/images/login.jpg";
 import { truncate, getYear } from "../services/common";
 
-const Profile = () => {
+const Favorites = () => {
   const [movies, setMovies] = useState([]);
   const { user } = UserAuth();
 
@@ -115,4 +115,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Favorites;

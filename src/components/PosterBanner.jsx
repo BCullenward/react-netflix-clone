@@ -1,13 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import endpoints, { createImageUrl } from "../services/movieServices";
+import mediaListRow, { createImageUrl } from "../services/movieServices";
 import { truncate } from "../services/common";
 
 const PosterBanner = () => {
   const [movie, setMovie] = useState({});
 
   useEffect(() => {
-    axios.get(endpoints.popular).then((response) => {
+    axios.get(mediaListRow[0].rowLink).then((response) => {
       const movies = response.data.results;
       const randomMovie = movies[Math.floor(Math.random() * movies.length)];
 
